@@ -22,13 +22,17 @@
       <TextField id="username" layoutX="230.0" layoutY="293.0" promptText="NUTZERNAME" />
       <PasswordField id="passwordDatabase" layoutX="394.0" layoutY="293.0" promptText="PASSWORT" />
       <Label layoutX="395.0" layoutY="276.0" text="Passwort für die Datenbank" />
-      <PasswordField id="newPass" layoutX="230.0" layoutY="363.0" promptText="Ihr Passwort hier" />
-      <Label layoutX="166.0" layoutY="346.0" text="Das Passwort für Ihren Account in diesem Programm" />
-      <Button id="button" layoutX="251.0" layoutY="407.0" mnemonicParsing="false" text="Account erstellen" />
+      <PasswordField id="newPass" layoutX="231.0" layoutY="387.0" promptText="Ihr Passwort hier" />
+      <Label layoutX="166.0" layoutY="370.0" text="Das Passwort für Ihren Account in diesem Programm" textFill="RED" />
+      <Button id="button" layoutX="251.0" layoutY="419.0" mnemonicParsing="false" text="Account erstellen" />
       <Label id="labelErr" layoutX="203.0" layoutY="247.0" text="Bitte alle Felder ausfüllen!" textFill="RED" visible="false">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
+      <TextField id="port" layoutX="149.0" layoutY="337.0" promptText="PORT" />
+      <TextField id="databaseName" layoutX="313.0" layoutY="337.0" promptText="DATABASE NAME" />
+      <Label layoutX="169.0" layoutY="320.0" text="Port of the Database" />
+      <Label layoutX="328.0" layoutY="320.0" text="Name of the Database" />
    </children>
 </AnchorPane>

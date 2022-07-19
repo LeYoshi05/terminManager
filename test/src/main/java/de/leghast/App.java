@@ -14,6 +14,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
@@ -40,15 +41,11 @@ public class App extends Application {
     @Override
 
     public void start(Stage stage) throws IOException {
-        String userDirectory = new File("").getAbsolutePath();
-        System.out.println(userDirectory);
         startGO();
 
-        if (!startOK) {
-            System.out.println("Start not OK"); // Unterscheidung zwischem erstem Durchlauf und folgenden
-                                                // Nutzungsversuchen
+        if (!startOK) { // Unterscheidung zwischem erstem Durchlauf und folgenden
+                        // Nutzungsversuchen
             firstStart(stage, false);
-            System.out.println("start done");
         } else {
             start2(stage);
         }
@@ -60,6 +57,7 @@ public class App extends Application {
         really = 0;
         scene = new Scene(loadFXML("login"));
         stage.setScene(scene);
+        stage.setTitle("Login");
         stage.show();
 
         AnchorPane anchorPane = (AnchorPane) scene.lookup("#anchorPane"); // Import der Elemente
@@ -96,16 +94,6 @@ public class App extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-
-        File file = new File("./");
-        String[] directories = file.list(new FilenameFilter() {
-            @Override
-            public boolean accept(File current, String name) {
-                return new File(current, name).isDirectory();
-            }
-        });
-        System.out.println(Arrays.toString(directories));
-
         launch(); // nur zur Ausführbarkeit notwendig
 
     }
@@ -151,7 +139,9 @@ public class App extends Application {
     }
 
     public EventHandler<Event> firstStartHandler(Stage stage, TextField webaddress, TextField username,
-            PasswordField databasePass, PasswordField newPass) { // HAHAHA, das sind viele
+            PasswordField databasePass, PasswordField newPass, TextField portField, TextField nameField) { // HAHAHA,
+                                                                                                           // das sind
+                                                                                                           // viele
         EventHandler<Event> handler = new EventHandler<Event>() {
 
             @Override
@@ -160,7 +150,6 @@ public class App extends Application {
                 passwordTest = new PasswordCheck();
                 if (webaddress.getText().equals("") | username.getText().equals("") | databasePass.getText().equals("")
                         | newPass.getText().equals("")) { // Falls Nutzer Eingabe vergessen hat
-                    System.out.println("ERROR!");
                     try {
                         firstStart(stage, true); // Lade Maske mit Fehlermeldung
                     } catch (IOException e) {
@@ -177,8 +166,8 @@ public class App extends Application {
 
                         writer = new BufferedWriter( // schreibe Datenbankdetails
                                 new FileWriter("./test/src/main/resources/de/leghast/saves/databaseConn.42"));
-
-                        writer.write(webaddress.getText() + "\n");
+                        String address = webaddress.getText() + ":" + portField.getText() + "/" + nameField.getText();
+                        writer.write(address + "\n");
                         writer.append(username.getText() + "\n");
                         writer.append(databasePass.getText());
 
@@ -228,6 +217,7 @@ public class App extends Application {
 
         scene = new Scene(loadFXML("firstLogin")); // Setup der Eingabemaske
         stage.setScene(scene);
+        stage.setTitle("Konto erstellen");
         stage.show();
 
         if (showError) {
@@ -240,8 +230,10 @@ public class App extends Application {
         TextField name = (TextField) scene.lookup("#username");
         PasswordField dataPass = (PasswordField) scene.lookup("#passwordDatabase");
         PasswordField newPass = (PasswordField) scene.lookup("#newPass");
+        TextField portField = (TextField) scene.lookup("#port");
+        TextField nameField = (TextField) scene.lookup("#databaseName");
         startButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
-                firstStartHandler(stage, address, name, dataPass, newPass));
+                firstStartHandler(stage, address, name, dataPass, newPass, portField, nameField));
     }
 
     private void startGO() {
